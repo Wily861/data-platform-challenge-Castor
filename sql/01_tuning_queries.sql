@@ -6,10 +6,6 @@
 -- Problema: EXTRACT(YEAR) impide el uso de índices (Sequential Scan).
 -- Solución: Rango de fechas explícito para habilitar Index Range Scan.
 
--- OPTIMIZACIÓN DE QUERIES: 
--- Se eliminan funciones en el WHERE para asegurar SARGability y uso de índices.
--- Se sustituyen subconsultas correlacionadas por Window Functions para reducir complejidad de O(n^2) a O(n).
-
 CREATE INDEX IF NOT EXISTS idx_sales_date_amount ON fact_sales (sale_date) INCLUDE (total_amount, product_id);
 
 SELECT p.product_name, SUM(s.total_amount) AS total_revenue
