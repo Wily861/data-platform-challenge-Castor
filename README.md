@@ -1,13 +1,13 @@
 # 🚀 Solución: Evaluación Senior Data Platform Engineer - Castor
 
-**Postulante:** [Tu Nombre]  
+**Postulante:** [Tu Nombre Completo]  
 **Rol:** Senior Data Platform Engineer  
-**Enfoque:** Tuning de Base de Datos, Estándares de Gobierno y Seguridad
+**Enfoque:** Optimización de Consultas, Arquitectura de Datos y Gobierno Corporativo
 
 ---
 
 ## 📝 Resumen del Proyecto
-Resolución estratégica de cuellos de botella en un **Data Warehouse de 8 millones de registros** sobre PostgreSQL 15. El objetivo principal es optimizar el rendimiento de los reportes en Power BI mediante la re-escritura de consultas y una arquitectura de seguridad robusta.
+Resolución estratégica de cuellos de botella en un **Data Warehouse de 8 millones de registros** sobre PostgreSQL 15. La solución se centra en la estabilización de los reportes de Power BI mediante la optimización de planes de ejecución y la implementación de una arquitectura de seguridad robusta para garantizar la alta disponibilidad de los recursos.
 
 ---
 
@@ -15,33 +15,34 @@ Resolución estratégica de cuellos de botella en un **Data Warehouse de 8 millo
 * **Motor:** PostgreSQL 15.
 * **Optimización:** EXPLAIN / ANALYZE, Índices GIN, BRIN y B-tree.
 * **Seguridad:** Role-Based Access Control (RBAC) y PII Masking.
-* **Gobierno:** Límites de recursos y mantenimiento programado.
+* **Gobierno:** Gestión de Work Load (Limits) y Mantenimiento Programado.
 
 ---
 
 ## 📂 Estructura del Repositorio
-La solución se ha modularizado para seguir las mejores prácticas de ingeniería de datos:
+Para garantizar la escalabilidad y el orden, el repositorio se ha modularizado de la siguiente manera:
 
-* **`sql/01_tuning_queries.sql`**: Re-escritura de queries críticas con reducciones de costo superiores al 50%.
-* **`sql/02_index_strategy.sql`**: Plan de indexación para tablas de hechos y configuración de Autovacuum.
-* **`sql/03_design_and_bi.sql`**: Implementación de vistas materializadas y gestión de Tablespaces.
-* **`sql/04_security_governance.sql`**: Configuración de roles, protección de PII y límites de memoria.
+* **[`sql/01_tuning_queries.sql`](./sql/01_tuning_queries.sql)**: Re-escritura de queries críticas bajo el estándar SARGable, logrando reducciones de costo superiores al 50%.
+* **[`sql/02_index_strategy.sql`](./sql/02_index_strategy.sql)**: Implementación de índices avanzados (BRIN) y optimización del Autovacuum para el manejo de grandes volúmenes.
+* **[`sql/03_design_and_bi.sql`](./sql/03_design_and_bi.sql)**: Diseño de vistas materializadas y estrategia de almacenamiento por Tablespaces para optimizar el I/O.
+* **[`sql/04_security_governance.sql`](./sql/04_security_governance.sql)**: Implementación de roles de solo lectura, protección de datos sensibles (PII) y aislamiento de recursos por rol.
 
 ---
 
-## 📈 Aspectos Destacados de la Solución
+## 📈 Aspectos Críticos de la Solución
 
 ### 1. Optimización de Performance (Tuning)
-Se eliminaron los escaneos secuenciales (Sequential Scans) transformando consultas ineficientes en predicados **SARGables**. Se implementaron **Window Functions** para sustituir subconsultas correlacionadas, optimizando el uso de CPU y memoria.
+Se eliminaron de raíz los escaneos secuenciales (Sequential Scans) ineficientes. Mediante el uso de **Window Functions** y la transformación de predicados a formatos **SARGables**, se garantiza una respuesta rápida del motor incluso en procesos analíticos complejos.
 
-### 2. Seguridad y Gobierno
-Aplicación del principio de **Menor Privilegio**. Se restringió el acceso a datos sensibles (PII) mediante vistas anonimizadas y se establecieron límites de `work_mem` y `statement_timeout` por rol para garantizar la estabilidad del servidor ante consultas pesadas de BI.
+### 2. Seguridad y Gobierno de Datos
+Se implementó el **Principio de Menor Privilegio (PoLP)**. El acceso a la capa analítica se realiza mediante vistas que enmascaran información personal (PII), y se establecieron límites estrictos de `work_mem` y `statement_timeout` para evitar la degradación del servicio por consultas costosas.
 
 ---
 
 ## 📖 Guía de Estándares para Data Engineers
-1. **SARGability:** No aplicar funciones a columnas en el filtro `WHERE`.
-2. **No al `SELECT *`:** Solicitar solo columnas necesarias para minimizar el I/O.
-3. **Filtrado Temprano:** Reducir el volumen de datos antes de realizar JOINs.
-4. **Eficiencia Analítica:** Priorizar Window Functions sobre subqueries.
-5. **Cultura de EXPLAIN:** Validar cada cambio con planes de ejecución reales.
+Esta guía establece las bases para un desarrollo de alto rendimiento:
+1.  **SARGability:** Prohibido envolver columnas en funciones dentro del filtro `WHERE` para no inhabilitar los índices.
+2.  **Proyección Selectiva:** Prohibido el uso de `SELECT *`. Se deben solicitar solo las columnas estrictamente necesarias para el negocio.
+3.  **Filtrado Temprano:** Reducción agresiva de datasets mediante filtros aplicados antes de realizar JOINs complejos.
+4.  **Eficiencia Analítica:** Priorización del uso de Window Functions sobre subconsultas correlacionadas para reducir la complejidad computacional.
+5.  **Cultura de EXPLAIN:** Es obligatorio validar cada cambio mediante planes de ejecución, buscando siempre una reducción demostrable en el costo operativo.
