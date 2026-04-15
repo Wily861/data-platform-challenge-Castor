@@ -1,7 +1,8 @@
 # 🚀 Solución: Evaluación Senior Data Platform Engineer - Castor
 
-**Postulante:** [Tu Nombre Completo]  
+**Postulante:** Wily Duvan Villamil Rey  
 **Rol:** Senior Data Platform Engineer  
+**Perfil:** [LinkedIn: wily-rey-dba](https://www.linkedin.com/in/wily-rey-dba)  
 **Enfoque:** Optimización de Consultas, Arquitectura de Datos y Gobierno Corporativo
 
 ---
