@@ -5,6 +5,11 @@
 -- Estrategia para Tabla de Hechos (8M registros)
 -- Se utiliza un índice BRIN para la fecha por su alta eficiencia en espacio 
 -- y rendimiento en tablas particionadas por tiempo.
+
+-- ESTRATEGIA DE INDEXACIÓN:
+-- Uso de BRIN para fact_sales (8M registros) por eficiencia en volumen y fechas cronológicas.
+-- Configuración de Autovacuum para mitigar el bloating causado por cargas masivas diarias.
+
 CREATE INDEX idx_sales_brin_date ON fact_sales USING BRIN (sale_date);
 
 -- Autovacuum Tuning (Punto 1.3)
