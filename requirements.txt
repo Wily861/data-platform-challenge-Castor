@@ -1,1 +1,4 @@
-
+# Dependencias para conectividad y automatización de base de datos
+psycopg2-binary==2.9.9
+sqlparse==0.4.4
+pandas==2.1.0
