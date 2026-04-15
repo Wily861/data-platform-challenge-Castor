@@ -30,6 +30,17 @@ Para garantizar la escalabilidad y el orden, el repositorio se ha modularizado d
 
 ---
 
+## ⚖️ Decisiones de Arquitectura y Trade-offs
+Para esta solución de 8 millones de registros, se tomaron decisiones basadas en el equilibrio entre almacenamiento e I/O:
+
+* **Índices BRIN (Block Range Index):** Seleccionados para la tabla de hechos cronológica por su bajísimo impacto en disco (comparado con B-tree) y alta velocidad de escaneo en rangos de fechas. Esto evita el sobre-indexado que degradaría el rendimiento de las cargas masivas.
+  
+* **Índices GIN con `pg_trgm`:** Implementados específicamente para la auditoría de correos electrónicos. Los índices tradicionales no optimizan búsquedas con comodín inicial (`%dominio.com`), mientras que los trigramas permiten un filtrado de texto eficiente.
+  
+* **Aislamiento de Recursos:** Se configuró `work_mem` y `statement_timeout` por rol para prevenir que consultas analíticas pesadas saturen la RAM, garantizando la estabilidad del entorno productivo para otros procesos críticos.
+
+---
+
 ## 📈 Aspectos Críticos de la Solución
 
 ### 1. Optimización de Performance (Tuning)
