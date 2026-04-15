@@ -4,6 +4,11 @@
 
 -- Vista Materializada (Punto 2.1)
 -- Pre-agregación de métricas mensuales para Power BI.
+
+-- DISEÑO FÍSICO Y BI:
+-- Implementación de Materialized Views con índices únicos para permitir refresco concurrente.
+-- Estrategia de Tablespaces para separar I/O entre datos volátiles (Staging) y persistentes (Core).
+
 CREATE MATERIALIZED VIEW mv_bi_monthly_sales AS
 SELECT product_id, DATE_TRUNC('month', sale_date) AS month, SUM(total_amount) AS revenue
 FROM fact_sales GROUP BY 1, 2;
