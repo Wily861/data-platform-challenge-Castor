@@ -5,10 +5,6 @@
 -- Roles de Solo Lectura (Punto 3.1)
 -- Aplicación del principio de Menor Privilegio (evitando Superuser).
 
--- GOBIERNO Y SEGURIDAD (RBAC):
--- Aplicación del Principio de Menor Privilegio (PoLP) mediante roles de solo lectura.
--- Aislamiento de recursos (work_mem/timeout) para proteger la estabilidad del servidor ante queries de BI.
-
 CREATE ROLE powerbi_analyst_role;
 GRANT USAGE ON SCHEMA core TO powerbi_analyst_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA core TO powerbi_analyst_role;
